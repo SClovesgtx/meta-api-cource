@@ -44,3 +44,54 @@ There are also third-party renderers available for this job. While making an API
 | HTML            |                     Accept: text/html                          |
 | XML             |          Accept: application/xml, Accept: text/xml             |
 | YAML | Accept: application/yaml,   Accept: application/x-yaml, Accept: text/yaml |
+
+# REST 
+
+Is an architectural style for design APIs. It is very popular for its simplicity:
+
+- Easy to learn
+- Quick to develop
+
+To an API be RESTfull it must satisfy:
+
+- **Client-server**
+- **Stateless**: do not depend of previous states.
+- **Cacheable**: possibility to chace response on the browser.
+- **Layered**: you application could be split into layers and each layer could be chance (firewall, load balancer, web server, database server, etc).
+- **Uniform interface** 
+- **Optional code on demand**: Business logic, code that can improve results.
+
+# Naming conventions
+
+Naming your API properly is the first step in designing a good API. When the API name follows a convention, it provides lots of information about the API and its purpose. To create a meaningful API endpoint, you need to follow some simple guidelines and rules. 
+
+**Vocabulary**: Uniform Resource Identifier (URI) = Endpoint = URL path.
+
+There are some conventions:
+
+- endpoint names must be in lowercase (```/orders``` and not ```/Orders```)
+- Hyphens in between words (ex: ```/menu-items```)
+- if your endpoint except parameters, you can represent them in Camel case (ex: ```orders/{orderId}/menu-items```).
+
+Use forward slash (```/```) to indicate hierarchical relationships between related objects.
+
+For example, a library has books, and books has authors:
+
+```/library/books/{bookID}/author```
+
+To get all books by an author:
+
+```/library/authors/{authorName}/books```
+
+You must use nouns instead of verbs. The following are some bad examples:
+
+- ```/getAllBooks```
+- ```/getUser/{userId}```
+- ```users/{userId}/delete```
+- ```/orders/{orderId}/save```
+
+Do not specify the response format as part of the name endpoint like ```orders/{orderId}.json```, instead you could expect a query string that specify the data format response like ```/orders/{orderId}?format=json```.
+
+For minified version of a JavaScript file you could use ```assets/js/jquery/3.6.0/min``` or ```assets/js/moment/2.29.4/original```.
+
+Do not end your endpoint name with a forward slash (ex: ```/orders/{orderId}/```).
