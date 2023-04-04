@@ -95,3 +95,16 @@ Do not specify the response format as part of the name endpoint like ```orders/{
 For minified version of a JavaScript file you could use ```assets/js/jquery/3.6.0/min``` or ```assets/js/moment/2.29.4/original```.
 
 Do not end your endpoint name with a forward slash (ex: ```/orders/{orderId}/```).
+
+# REST best practices
+
+- Principle KISS (keep it simple stupid): the idea is that your API need to do one specific simple job. 
+- Always provide a way to filter, order and paginate. 
+    - Pagination: your API will be able to send results in small chunks.
+- Versioning your API
+- Caching: your API must be able to cache results, in this way, you save resources in case to provide same answer.
+- Rate limiting and monitoring: to prevent abuse of use.
+    - limits call: number of calls per minute, or day. 
+    - monitoring 
+        - response time
+        - status code
