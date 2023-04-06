@@ -113,13 +113,106 @@ Do not end your endpoint name with a forward slash (ex: ```/orders/{orderId}/```
 # Security
 
 - **Secure Socket Layer (SSL)**: is a protocol that provides a secure communication channel over the internet between two endpoints. SSL can be used to secure APIs by encrypting the data in transit between the client and the server, thus preventing unauthorized access and interception of sensitive information. 
+
 - **Transport Layer Security (TLS)**: is an upgraded version of SSL and provides improved security features.
+
 - **Signed URLs**: limited access to a resource for a limited time. A signed URL is a URL that includes a cryptographic signature, which allows the server to authenticate the request and determine whether the request is authorized to access the protected resource. Instead of requiring the user to authenticate with a username and password, the server generates a signed URL that includes a **token**, which grants temporary access to the resource.
+
 - **Hash-based Message Authentication Code (HMAC)**: is a cryptographic algorithm that is used to verify the authenticity and integrity of a message. In the context of generating Signed URLs, HMAC is used to sign a token that is included in the URL to grant temporary access to a protected resource. One advantage of using HMAC to generate Signed URLs is that the signature can be verified without having to store the token or secret key on the server. This reduces the risk of a security breach or data leak since sensitive information is not stored on the server. In Python, the built-in hmac library can be used to generate the signature, and the urlencode function can be used to encode the token and signature in the URL.
+
 - **JSON Web Token (JWT)**: is a self-contained token that contains information about the user or entity that is making the request. Consists of three parts: a header, a payload, and a signature. The header contains information about the token, such as the algorithm used to sign it. The payload contains the claims or information that is being transferred in the token, such as the user ID or role. The signature is a cryptographic signature that verifies the authenticity and integrity of the token. Read more about it [here](https://www.devmedia.com.br/como-o-jwt-funciona/40265).
+
 - **HTTP codes**:
     - **401 - Unauthorized**: username and password don't match.
     - **403 - Forbidden**: no authority to perform action.
 - **Cross-Origin Resource Sharing (CORS)**: is a security mechanism that allows a web page to make requests to a different domain than the one that served the original web page. It is a way of relaxing the same-origin policy, which restricts web pages from making requests to domains other than their own. By default, browsers enforce the same-origin policy, which means that web pages can only make requests to domains that have the same origin as the web page itself. However, using CORS, web developers can relax this policy and allow requests to be made to other domains.
 
 - **Web Application Firewall (WAF)**: is a security solution that is designed to protect web applications, including APIs, from common attacks such as SQL injection, cross-site scripting (XSS), and other forms of malicious traffic. Application firewalls work by monitoring incoming and outgoing traffic and analyzing it for potential threats. They use a set of rules and algorithms to detect patterns and anomalies in the traffic, and can block or allow traffic based on these rules.
+
+## Access Control
+
+Access control is a security mechanism that is designed to control who has access to an API and what actions they can perform. It is an important part of API security and helps to protect against unauthorized access and malicious activity.
+
+Access control in APIs typically involves three main components: authentication, authorization, and auditing.
+
+**Authentication** is the process of verifying the identity of a user or application that is making a request to an API. This can be done using a variety of mechanisms such as passwords, tokens, or certificates.
+
+**Authorization** is the process of determining whether a user or application has permission to perform a specific action or access a specific resource. This is typically done by **checking the user's role or permissions against a set of policies or rules** that define what actions are allowed.
+
+**Auditing** is the process of logging and monitoring API activity to identify potential security threats or breaches. This can include tracking user activity, monitoring system logs, and analyzing network traffic.
+
+Access control in APIs can be implemented using a variety of techniques and technologies, including role-based access control (RBAC), attribute-based access control (ABAC), and OAuth 2.0.
+
+**RBAC** is a popular access control model that assigns users or applications to roles based on their job function or responsibilities. Each role is assigned a set of permissions that define what actions they are allowed to perform.
+
+**ABAC** is a more flexible access control model that allows access to be controlled based on attributes such as user location, device type, or time of day.
+
+**OAuth 2.0** is an authorization framework that is widely used in modern web applications and APIs. It provides a standardized way of granting access to resources based on user consent and authorization.
+
+Overall, access control is a critical part of API security and helps to protect against unauthorized access and malicious activity. It can be implemented using a variety of techniques and technologies, and should be designed to meet the specific security needs of the API and its users.
+
+## Authentication versus authorization
+
+### Introduction
+
+You need to secure your APIs because they provide third-party clients access to your backend data. If you don’t secure your APIs properly, anyone can tamper with the data and access sensitive information. But even if a client is allowed to access the data, you need to control who can do what. This is where authentication and authorization come in. You now know that although they sound similar, they are not the same. In this reading, you will learn about the difference between authentication and authorization and how you can use it to protect your API endpoints.
+
+### Authentication
+
+Authentication is the process of verifying the credentials of a user. Logging into websites with a username and password is a typical example of authentication. When the username and password match, the website recognizes the user and sets some cookies in the user’s browser. When the user visits another page on that website, the browser sends those cookies within the HTTP request header. The website recognizes the cookies as well as server-side session data and therefore doesn’t ask for credentials until the user logs out again.  
+
+So, how does this work? Token-based authentication usually involves two steps in the API Architecture. First, the client identifies itself with a username and password. Then the API server gives it a bearer token. From there, the client includes the bearer token with every API call that it places. The API server verifies it and then allows the client to perform the action or not. This is where authorization comes in, but more on this later.
+
+If the credentials are not valid, the client will receive a **401 - Unauthorized** HTTP status code.
+
+This is like coming to the office on the first day, submitting all your papers and documents, and then receiving your employee card. After that, only your employee card will be sufficient to get inside. Authentication works just like that!
+
+The two steps in the API authentication process can be represented by the following two diagrams. 
+
+![](imgs/1.png)
+
+### Authorization
+
+However, even with your employee card, you will not be able to access all the rooms or spaces in the office. There are some places that are only accessible to a certain group of people who have been given that privilege. Authorization is exactly like that. Authentication lets you in, authorization lets you act. It checks after authentication if the user has the proper privileges to perform some tasks. 
+
+On the server side, this is typically done by assigning the user to a group or a set of groups. Then, after verifying the token, the code checks if the user belongs to the appropriate group to perform that task. If not, the client will receive a 403 - Forbidden HTTP status code.  
+
+![](imgs/2.png)
+
+This extra authorization layer in the API architecture ensures that only people with proper privileges can access and modify data. An authorization system in an API project is very important because it prevents data corruption and data breaches. 
+
+### Implementing authorization 
+
+Privileges are the tasks that an API user performs, and they are the building blocks of an authorization layer. First, as an API developer, you identify the required privileges in your project. For example, for a bookshop, there might be the following types of privileges:
+
+- Browse the books
+
+- Add new books
+
+- Edit books
+
+- Delete books
+
+- Place orders 
+
+There can be many other privileges like this. And not every user will have every privilege. For instance, regular customers are not allowed to add and edit books, even if they are properly authenticated. Only managers are allowed to perform those operations. 
+
+So, after identifying the privileges, you carefully distribute all these privileges into multiple roles. And then, the authorization check is done in the backend code of each API endpoint that requires a user role check. The developer verifies if the user belongs to the appropriate group or roles, and then makes the decision to allow or deny the action. 
+
+### User groups in Django
+
+The Django admin panel comes with excellent support for the user group system. If you log into the admin panel, you will find two distinct sections – users and groups.
+
+![](imgs/3.png)
+
+From here, you can create groups or roles like Manager, Editor, Customer, Admin and so on and assign privileges to these groups. If you click on the Add button next to the groups, you will be taken to a screen where you can create new groups. The Django admin panel will list all the necessary privileges based on the models in your project. Here is a screen that indicates the available privileges for a bookshop.
+
+![](imgs/4.png)
+
+On this screen, you can create an Editor role, for instance, and add privileges to it.
+
+![](imgs/5.png)
+
+The Django admin panel allows you to manage groups throughout the project. You can add and remove privileges to groups as the project grows.
+
+![](imgs/6.png)
