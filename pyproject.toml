@@ -1,13 +1,14 @@
 [tool.poetry]
-name = "littlelemon"
+name = "meta-api-course"
 version = "0.1.0"
 description = ""
 authors = ["Cloves Paiva <cloves.paiva@extremedigital.com.br>"]
 readme = "README.md"
+packages = [{include = "meta_api_course"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-django = "^4.1.7"
+django = "^4.2"
 
 
 [build-system]
