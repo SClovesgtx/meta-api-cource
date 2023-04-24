@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "BookListAPI",
+    "rest_framework"
 ]
 
 MIDDLEWARE = [
