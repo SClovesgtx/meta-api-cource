@@ -19,12 +19,12 @@
     "cSpell.language": "en, en-US",
     /* ======== Python ======== */
     "[python]": {
-      "editor.defaultFormatter": "ms-python.python",
+      "editor.defaultFormatter": "ms-python.black-formatter",
     },
     "python.analysis.extraPaths": [
       "${workspaceRoot}/src"
     ],
-    "python.formatting.provider": "black",
+    "python.formatting.provider": "none",
     "python.analysis.typeCheckingMode": "basic",
     "python.analysis.completeFunctionParens": true,
     "python.languageServer": "Pylance",
