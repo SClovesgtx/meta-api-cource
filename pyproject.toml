@@ -10,6 +10,9 @@ packages = [{include = "meta_api_course"}]
 python = "^3.10"
 django = "^4.2"
 djangorestframework = "^3.14.0"
+djangorestframework-xml = "^2.0.0"
+djangorestframework-csv = "^2.1.1"
+djangorestframework-yaml = "^2.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
