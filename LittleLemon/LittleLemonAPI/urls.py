@@ -5,4 +5,6 @@ from . import views
 urlpatterns = [
     path("menu-items", views.MenuItemsView.as_view()),
     path("menu-item/<int:pk>", views.SingleMenuItemsView.as_view()),
+    path("menu", views.menu),
+    path("", views.welcome),
 ]
