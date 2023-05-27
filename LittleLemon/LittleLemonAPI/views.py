@@ -5,6 +5,7 @@ from rest_framework.renderers import TemplateHTMLRenderer, StaticHTMLRenderer
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.response import Response
 from rest_framework import status
+from django.core.paginator import Paginator, EmptyPage
 
 # from rest_framework_csv.renderers import CSVRenderer
 
@@ -21,6 +22,8 @@ def menu_items(request):
         to_price = request.query_params.get("to_price")
         title = request.query_params.get("title")
         ordering = request.query_params.get("ordering")
+        perpage = request.query_params.get("perpage", default=2)
+        page = request.query_params.get("page", default=1)
         if to_price:
             items = items.filter(price__gte=to_price)
         if title:
@@ -28,6 +31,11 @@ def menu_items(request):
         if ordering:
             ordering_fields = ordering.split(",")
             items = items.order_by(*ordering_fields)
+        paginator = Paginator(items, perpage)
+        try:
+            items = paginator.page(page)
+        except EmptyPage:
+            items = []
         serialized_item = MenuItemSerializer(items, many=True)
         return Response(serialized_item.data)
     elif request.method == "POST":
