@@ -10,40 +10,42 @@ from django.core.paginator import Paginator, EmptyPage
 # from rest_framework_csv.renderers import CSVRenderer
 
 
-# class MenuItemsView(generics.ListCreateAPIView):
-#     queryset = MenuItem.objects.all()
-#     serializer_class = MenuItemSerializer
+class MenuItemsView(generics.ListCreateAPIView):
+    queryset = MenuItem.objects.all()
+    serializer_class = MenuItemSerializer
+    ordering_fields = ["price", "title"]
+    search_fields = ["title"]
 
 
-@api_view(["GET", "POST"])
-def menu_items(request):
-    if request.method == "GET":
-        items = MenuItem.objects.all()
-        to_price = request.query_params.get("to_price")
-        title = request.query_params.get("title")
-        ordering = request.query_params.get("ordering")
-        perpage = request.query_params.get("perpage", default=2)
-        page = request.query_params.get("page", default=1)
-        if to_price:
-            items = items.filter(price__gte=to_price)
-        if title:
-            items = items.filter(title__icontains=title)
-        if ordering:
-            ordering_fields = ordering.split(",")
-            items = items.order_by(*ordering_fields)
-        paginator = Paginator(items, perpage)
-        try:
-            items = paginator.page(page)
-        except EmptyPage:
-            items = []
-        serialized_item = MenuItemSerializer(items, many=True)
-        return Response(serialized_item.data)
-    elif request.method == "POST":
-        serializer = MenuItemSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status.HTTP_201_CREATED)
-        return Response(serializer.errors)
+# @api_view(["GET", "POST"])
+# def menu_items(request):
+#     if request.method == "GET":
+#         items = MenuItem.objects.all()
+#         to_price = request.query_params.get("to_price")
+#         title = request.query_params.get("title")
+#         ordering = request.query_params.get("ordering")
+#         perpage = request.query_params.get("perpage", default=2)
+#         page = request.query_params.get("page", default=1)
+#         if to_price:
+#             items = items.filter(price__gte=to_price)
+#         if title:
+#             items = items.filter(title__icontains=title)
+#         if ordering:
+#             ordering_fields = ordering.split(",")
+#             items = items.order_by(*ordering_fields)
+#         paginator = Paginator(items, perpage)
+#         try:
+#             items = paginator.page(page)
+#         except EmptyPage:
+#             items = []
+#         serialized_item = MenuItemSerializer(items, many=True)
+#         return Response(serialized_item.data)
+#     elif request.method == "POST":
+#         serializer = MenuItemSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status.HTTP_201_CREATED)
+#         return Response(serializer.errors)
 
 
 class SingleMenuItemsView(generics.RetrieveUpdateAPIView, generics.DestroyAPIView):
