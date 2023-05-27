@@ -6,6 +6,8 @@ from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.response import Response
 from rest_framework import status
 from django.core.paginator import Paginator, EmptyPage
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
 
 # from rest_framework_csv.renderers import CSVRenderer
 
@@ -66,3 +68,9 @@ def menu(request):
 def welcome(request):
     data = "<html><body><h1>Welcome To Little Lemon API Project</h1></body></html>"
     return Response(data)
+
+
+@api_view()
+@permission_classes([IsAuthenticated])
+def secret(request):
+    return Response("You found the secret page!")
