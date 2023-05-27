@@ -14,6 +14,7 @@ djangorestframework-xml = "^2.0.0"
 djangorestframework-csv = "^2.1.1"
 djangorestframework-yaml = "^2.0.0"
 bleach = "^6.0.0"
+django-filter = "^23.2"
 
 
 [tool.poetry.group.dev.dependencies]
