@@ -13,6 +13,7 @@ djangorestframework = "^3.14.0"
 djangorestframework-xml = "^2.0.0"
 djangorestframework-csv = "^2.1.1"
 djangorestframework-yaml = "^2.0.0"
+bleach = "^6.0.0"
 
 
 [tool.poetry.group.dev.dependencies]

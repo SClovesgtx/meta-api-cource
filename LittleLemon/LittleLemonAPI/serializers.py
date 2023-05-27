@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from .models import MenuItem
 from decimal import Decimal
+import bleach
 
 
 class MenuItemSerializer(serializers.ModelSerializer):
@@ -45,4 +46,4 @@ class MenuItemSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Title must be at least 2 characters long"
             )
-        return value
+        return bleach.clean(value)
