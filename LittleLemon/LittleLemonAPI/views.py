@@ -74,3 +74,18 @@ def welcome(request):
 @permission_classes([IsAuthenticated])
 def secret(request):
     return Response("You found the secret page!")
+
+
+@api_view()
+@permission_classes([IsAuthenticated])
+def manager_view(requests):
+    # cheking if the user is a manager
+    if requests.user.groups.all().filter(name="Manager").exists():
+        return Response({"message": "Welcome to the manager page."})
+    else:
+        return Response(
+            {
+                "message": "Your are not a manager. You are not able to consume this endpoint."
+            },
+            status=status.HTTP_403_FORBIDDEN,
+        )

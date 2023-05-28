@@ -11,4 +11,5 @@ urlpatterns = [
     path("", views.welcome),
     path("secret/", views.secret),
     path("api-token-auth/", obtain_auth_token),
+    path("manager/", views.manager_view),
 ]
