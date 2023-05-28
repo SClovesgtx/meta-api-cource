@@ -2,12 +2,14 @@ from rest_framework import generics
 from .models import MenuItem
 from .serializers import MenuItemSerializer
 from rest_framework.renderers import TemplateHTMLRenderer, StaticHTMLRenderer
-from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.decorators import api_view, renderer_classes, throttle_classes
 from rest_framework.response import Response
 from rest_framework import status
 from django.core.paginator import Paginator, EmptyPage
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
+from .thorottles import TenCallsPerMin
 
 # from rest_framework_csv.renderers import CSVRenderer
 
@@ -89,3 +91,20 @@ def manager_view(requests):
             },
             status=status.HTTP_403_FORBIDDEN,
         )
+
+
+@api_view()
+@throttle_classes(
+    [AnonRateThrottle]
+)  # anonymous user can only access this endpoint 20 times per day
+def throttle_check(request):
+    return Response({"message": "Successful!"})
+
+
+@api_view()
+@permission_classes([IsAuthenticated])
+@throttle_classes(
+    [TenCallsPerMin]
+)  # authenticated user can only requests this endpoint 2 times per minute
+def throttle_check_auth(request):
+    return Response({"message": "Successful!"})

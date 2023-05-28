@@ -144,4 +144,9 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 2,
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "20/day",  # anonymous users can make 2 requests per day
+        "user": "2/minute",  # authenticated users can make 2 requests per minute
+        "ten": "10/minute",  # personalized throttle rate for authenticate users
+    },
 }
