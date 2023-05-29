@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "LittleLemonAPI",
+    "djoser",
 ]
 
 MIDDLEWARE = [
@@ -141,6 +142,7 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 2,
@@ -149,4 +151,9 @@ REST_FRAMEWORK = {
         "user": "2/minute",  # authenticated users can make 2 requests per minute
         "ten": "10/minute",  # personalized throttle rate for authenticate users
     },
+}
+
+
+DJOSER = {
+    "USER_ID_FIELD": "username",
 }
